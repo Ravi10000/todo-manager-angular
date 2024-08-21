@@ -1,0 +1,10 @@
+<div class="p-2 flex flex-col gap-2">
+  <label class="ml-2 font-medium" [for]="id">{{ label }}</label>
+  <textarea
+    [id]="id"
+    [placeholder]="label"
+    class="w-full p-4 rounded-lg bg-[#F3F1FF] h-[100px]"
+    [value]="value"
+    (input)="onInput($event)"
+  ></textarea>
+</div>
