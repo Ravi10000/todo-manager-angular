@@ -21,6 +21,7 @@ export class TodoModalComponent {
   readonly ROOT_URL = 'http://localhost:3040/api';
   @Input() todo: Todo | null = null;
   @Output() closingModal = new EventEmitter();
+  errors: any = {};
   todoService = inject(TodosService);
 
   todoForm = new FormGroup({
@@ -44,6 +45,10 @@ export class TodoModalComponent {
     this.closingModal.emit();
   }
   handleSubmit() {
+    if (!this.todoForm.value.name) {
+      this.errors.name = 'Name Required';
+      return;
+    }
     if (this.todo?._id) {
       this.http
         .put<TodoUpdateResponse>(

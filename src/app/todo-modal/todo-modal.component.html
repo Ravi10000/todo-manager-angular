@@ -13,8 +13,12 @@
         <img src="/close.png" class="w-8 h-fit" />
       </button>
     </div>
-    <form class="flex flex-col gap-4" [formGroup]="todoForm" (submit)="handleSubmit()">
-      <div class="p-2 flex flex-col gap-2">
+    <form
+      class="flex flex-col gap-4"
+      [formGroup]="todoForm"
+      (submit)="handleSubmit()"
+    >
+      <div class="flex flex-col gap-2">
         <label class="ml-2 font-medium" for="name">Name</label>
         <input
           id="name"
@@ -23,20 +27,18 @@
           formControlName="name"
           required="true"
         />
-
-        <div class="flex flex-col gap-2">
-          <label class="ml-2 font-medium" for="description">Description</label>
-          <textarea
-            id="description"
-            placeholder="Description"
-            class="w-full p-4 rounded-lg bg-[#F3F1FF] h-[100px]"
-            formControlName="description"
-          ></textarea>
-        </div>
+        <p *ngIf="!!errors?.name" class="text-orange-600 text-sm pl-2">{{ errors?.name }}</p>
       </div>
-      <button class="bg-main text-white py-4 rounded-lg">
-        Save
-      </button>
+      <div class="flex flex-col gap-2">
+        <label class="ml-2 font-medium" for="description">Description</label>
+        <textarea
+          id="description"
+          placeholder="Description"
+          class="w-full p-4 rounded-lg bg-[#F3F1FF] h-[100px]"
+          formControlName="description"
+        ></textarea>
+      </div>
+      <button class="bg-main text-white py-4 rounded-lg">Save</button>
     </form>
   </div>
 </section>
