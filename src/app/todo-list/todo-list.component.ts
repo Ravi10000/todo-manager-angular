@@ -58,13 +58,31 @@ export class TodoListComponent {
       .put<TodoUpdateResponse>(`${this.ROOT_URL}/todos/${todo._id}`, {
         completed: this.todos[index].completed,
       })
-      .subscribe((response) => {
-        console.log({ response });
-        console.log({ todos: this.todos });
-      });
+      .subscribe(
+        (response) => {
+          console.log({ response });
+          console.log({ todos: this.todos });
+        },
+        (error) => {
+          this.todos[index].completed = !this.todos[index].completed;
+          console.log(error);
+        }
+      );
   }
-  // toggleTodo(todo:Todo, index: number){
-  // console.log({todo, index});
-  // this.http.post<TodoUpdateResponse>(`${this.ROOT_URL}/todos/${todo._id}`, {completed: !todo.completed}).pipe(tap(response => {console.log({response})}));
-  // }
+
+  deleteTodo(todo: Todo, index: number) {
+    this.todos.splice(index, 1);
+    this.http
+      .delete<TodoUpdateResponse>(`${this.ROOT_URL}/todos/${todo._id}`)
+      .subscribe(
+        (response) => {
+          console.log({ response });
+          console.log({ todos: this.todos });
+        },
+        (error) => {
+          this.todos.splice(index, 0, todo);
+          console.log(error);
+        }
+      );
+  }
 }

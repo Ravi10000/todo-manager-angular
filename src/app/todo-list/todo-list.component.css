@@ -4,12 +4,13 @@
     height: 4px;
     background-color: #5038ED;
     position: absolute;
-    top: 50%;
+    top: 30px;
     left: 0;
     transform: translateY(-50%);
     z-index: 10;
     transition: all;
     animation: lineThrough .3s ease-in-out;
+    user-select:none;
 }
 
 .completed{

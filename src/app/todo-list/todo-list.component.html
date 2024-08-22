@@ -4,6 +4,7 @@
   (closingModal)="closeModal()"
   [todo]="selectedTodo"
 />
+
 <section class="h-screen w-screen bg-bg flex items-center justify-center">
   <div
     class="h-fit w-[90%] max-w-[500px] bg-white flex rounded-xl px-6 py-10 flex-col gap-2 relative shadow-md"
@@ -20,16 +21,13 @@
     <div
       *ngFor="let todo of todos; let i = index"
       [ngClass]="{ completed: todo.completed }"
-      class="px-3 py-4 rounded-lg bg-bg/20 flex justify-between group relative overflow-hidden transition-all"
+      class="px-3 py-4 rounded-lg bg-bg/20 flex justify-between group relative overflow-hidden transition-all todo-item"
     >
       <div (click)="toggleTodo(todo, i)">
         <div class="inline-flex gap-2 items-center cursor-pointer">
-          <div
-            class="h-4 w-4 bg-transparent border-2 border-gray-800 rounded-full cursor-pointer"
-          ></div>
           <h2 class="font-medium text-main/80 text-xl">{{ todo.name }}</h2>
         </div>
-        <p class="font-light text-sm pl-6" *ngIf="!!todo.description">
+        <p class="font-light text-sm" *ngIf="!!todo.description">
           {{ todo.description }}
         </p>
       </div>
@@ -40,7 +38,7 @@
         >
           <img src="/pencil.png" class="w-6 h-fit" />
         </button>
-        <button class="transition-all hover:scale-[1.2] active:scale-[.9]">
+        <button class="transition-all hover:scale-[1.2] active:scale-[.9]" (click)="deleteTodo(todo, i)">
           <img src="/delete.png" class="w-6 h-fit" />
         </button>
       </div>
