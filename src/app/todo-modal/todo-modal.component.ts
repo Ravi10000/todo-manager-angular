@@ -1,11 +1,5 @@
-import {
-  Component,
-  EventEmitter,
-  Output,
-  Input,
-  inject,
-} from '@angular/core';
-import { NgIf } from '@angular/common';
+import { Component, EventEmitter, Output, Input, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Todo } from '../../interfaces/todo.interface';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +13,7 @@ interface TodoUpdateResponse {
 @Component({
   selector: 'app-todo-modal',
   standalone: true,
-  imports: [NgIf, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './todo-modal.component.html',
   styleUrl: './todo-modal.component.css',
 })

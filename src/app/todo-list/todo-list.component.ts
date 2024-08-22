@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Todo } from '../../interfaces/todo.interface';
-import { NgFor, NgIf, NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { TodoModalComponent } from '../todo-modal/todo-modal.component';
 import { TodosService } from '../todos.service';
 
@@ -18,7 +18,7 @@ interface TodoUpdateResponse {
 @Component({
   selector: 'app-todo-list',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass, TodoModalComponent],
+  imports: [CommonModule, TodoModalComponent],
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.css',
 })
