@@ -1,5 +1,9 @@
-<app-todo-modal *ngIf="isModalOpen" (closingModal)="closeModal()"/>
-<app-todo-modal *ngIf="!!selectedTodo?._id" (closingModal)="closeModal()" [todo]="selectedTodo"/>
+<app-todo-modal *ngIf="isModalOpen" (closingModal)="closeModal()" />
+<app-todo-modal
+  *ngIf="!!selectedTodo?._id"
+  (closingModal)="closeModal()"
+  [todo]="selectedTodo"
+/>
 <section class="h-screen w-screen bg-bg flex items-center justify-center">
   <div
     class="h-fit w-[90%] max-w-[500px] bg-white flex rounded-xl px-6 py-10 flex-col gap-2 relative shadow-md"
@@ -17,29 +21,31 @@
       *ngFor="let todo of todos"
       class="px-3 py-4 rounded-lg bg-bg/20 flex justify-between group"
     >
-      <div>
-        <h2 class="font-medium text-main/80 text-xl">{{ todo.name }}</h2>
-        <p class="font-light text-sm" *ngIf="!!todo.description">
+      <div class="">
+        <div class="inline-flex gap-2 items-center">
+          <div
+            class="h-4 w-4 bg-transparent border-2 border-gray-800 rounded-full cursor-pointer"
+          ></div>
+          <h2 class="font-medium text-main/80 text-xl">{{ todo.name }}</h2>
+        </div>
+        <p class="font-light text-sm pl-6" *ngIf="!!todo.description">
           {{ todo.description }}
         </p>
       </div>
       <div class="gap-4 items-center hidden group-hover:flex">
-       <button class="transition-all hover:scale-[1.2] active:scale-[.9]" (click)="setSelectedTodo(todo)">
-        <img
-        src="/pencil.png"
-        class="w-6 h-fit"
-      />
-       </button>
-       <button class="transition-all hover:scale-[1.2] active:scale-[.9]">
-        <img
-        src="/delete.png"
-        class="w-6 h-fit"
-      />
-       </button>
+        <button
+          class="transition-all hover:scale-[1.2] active:scale-[.9]"
+          (click)="setSelectedTodo(todo)"
+        >
+          <img src="/pencil.png" class="w-6 h-fit" />
+        </button>
+        <button class="transition-all hover:scale-[1.2] active:scale-[.9]">
+          <img src="/delete.png" class="w-6 h-fit" />
+        </button>
       </div>
     </div>
     <button
-    (click)="openModal()"
+      (click)="openModal()"
       class="bg-main text-white h-16 w-16 flex justify-center items-center rounded-full absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 shadow-sm transition-all hover:scale-[1.1] active:scale-[.9]"
     >
       <img src="/plus.png" class="w-4 h-fit" />
