@@ -23,7 +23,7 @@ export class TodosService {
     this.todosSource.next(todos);
   }
   addTodo(todo: Todo) {
-    this.todosSource.next([...this.todos, todo]);
+    this.todosSource.next([todo, ...this.todos]);
   }
   insertTodo(todo: Todo, index: number) {
     const _temp = [...this.todos];
