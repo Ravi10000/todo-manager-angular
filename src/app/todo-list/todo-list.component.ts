@@ -1,6 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CustomInputComponent } from '../custom-input/custom-input.component';
 import { Todo } from '../../interfaces/todo.interface';
 import { NgFor, NgIf } from '@angular/common';
 import { TodoModalComponent } from '../todo-modal/todo-modal.component';
@@ -14,7 +13,7 @@ interface Response {
 @Component({
   selector: 'app-todo-list',
   standalone: true,
-  imports: [CustomInputComponent, NgFor, NgIf, TodoModalComponent],
+  imports: [NgFor, NgIf, TodoModalComponent],
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.css'
 })
@@ -22,7 +21,7 @@ export class TodoListComponent {
   readonly ROOT_URL = "http://localhost:3040/api";
   todos: any = [];
   isModalOpen = false;
-  selectedTodo:any;
+  selectedTodo:any = {name: "", description: ""};
 
   constructor(private http: HttpClient) {}
   ngOnInit(){
@@ -37,14 +36,9 @@ export class TodoListComponent {
   }
   closeModal(){
     this.isModalOpen = false;
-    this.selectedTodo = null;
-    console.log("closing");
+    this.selectedTodo = {name: "", description: ""};
   }
   setSelectedTodo(todo:any){
-    console.log({todo});
     this.selectedTodo = todo;
   }
-    // console.log({todos: this.todos});
-    
-  // }
 }
