@@ -3,13 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { Todo } from '../../interfaces/todo.interface';
 import { NgFor, NgIf } from '@angular/common';
 import { TodoModalComponent } from '../todo-modal/todo-modal.component';
+import { Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
-interface Response {
+interface TodoListResponse {
   status: string,
   message: string,
   todos: Todo[]
 }
-
+interface TodoUpdateResponse {
+  status: string,
+  message: string,
+  todo: Todo
+}
 @Component({
   selector: 'app-todo-list',
   standalone: true,
@@ -19,14 +25,14 @@ interface Response {
 })
 export class TodoListComponent {
   readonly ROOT_URL = "http://localhost:3040/api";
-  todos: any = [];
+  todos: Todo[] = [];
   isModalOpen = false;
-  selectedTodo:any = {name: "", description: ""};
+  selectedTodo:Todo = {name: "", description: ""};
 
   constructor(private http: HttpClient) {}
   ngOnInit(){
-    this.todos = this.http.get(`${this.ROOT_URL}/todos`).subscribe(
-      (response:any) => { 
+    this.http.get<TodoListResponse>(`${this.ROOT_URL}/todos`).subscribe(
+      (response) => { 
         this.todos = response.todos;
         console.log(this.todos) },
       (error) => { console.log(error); });
@@ -38,7 +44,20 @@ export class TodoListComponent {
     this.isModalOpen = false;
     this.selectedTodo = {name: "", description: ""};
   }
-  setSelectedTodo(todo:any){
+  setSelectedTodo(todo:Todo){
     this.selectedTodo = todo;
   }
+  toggleTodo(todo:Todo, index: number){
+    console.log("toggle", todo, index);
+    this.http.put<TodoUpdateResponse>(`${this.ROOT_URL}/todos/${todo._id}`, {completed: !todo.completed}).subscribe(response => {
+      console.log({response});
+      this.todos[index] = response.todo;
+      console.log({todos: this.todos});
+      
+    });
+  }
+  // toggleTodo(todo:Todo, index: number){
+    // console.log({todo, index});
+    // this.http.post<TodoUpdateResponse>(`${this.ROOT_URL}/todos/${todo._id}`, {completed: !todo.completed}).pipe(tap(response => {console.log({response})}));
+  // }
 }
