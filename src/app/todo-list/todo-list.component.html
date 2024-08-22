@@ -1,11 +1,11 @@
 <app-todo-modal *ngIf="isModalOpen" (closingModal)="closeModal()" />
 <app-todo-modal
-  *ngIf="!!selectedTodo?._id"
+  *ngIf="!!selectedTodo"
   (closingModal)="closeModal()"
   [todo]="selectedTodo"
 />
 
-<section class="h-screen w-screen bg-bg flex items-center justify-center">
+<section class="min-h-screen w-screen bg-bg flex items-center justify-center">
   <div
     class="h-fit w-[90%] max-w-[500px] bg-white flex rounded-xl px-6 py-10 flex-col gap-2 relative shadow-md"
   >
@@ -18,11 +18,11 @@
     >
       My Todos
     </h1>
-    <div class="h-[400px] overflow-y-auto">
+    <div class="flex flex-col gap-4 overflow-y-auto max-h-[400px] h-fit">
       <div
         *ngFor="let todo of todos; let i = index"
         [ngClass]="{ completed: todo.completed }"
-        class="px-3 py-4 rounded-lg bg-bg/20 flex justify-between group relative overflow-hidden transition-all todo-item"
+        class="px-3 py-4 rounded-lg bg-bg/20 flex justify-between group relative transition-all"
       >
         <div (click)="toggleTodo(todo, i)">
           <div class="inline-flex gap-2 items-center cursor-pointer">

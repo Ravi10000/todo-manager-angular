@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Output, Input, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  Input,
+  inject,
+  OnChanges,
+} from '@angular/core';
 import { TextareaComponent } from '../textarea/textarea.component';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
@@ -21,7 +28,7 @@ interface TodoUpdateResponse {
 })
 export class TodoModalComponent {
   readonly ROOT_URL = 'http://localhost:3040/api';
-  @Input() todo: Todo = { name: '', description: '' };
+  @Input() todo: Todo | null = null;
   @Output() closingModal = new EventEmitter();
   todoService = inject(TodosService);
 
@@ -31,12 +38,33 @@ export class TodoModalComponent {
   });
 
   constructor(private http: HttpClient) {}
+  ngOnChanges(changes: any) {
+    if (changes?.todo?.currentValue?._id) {
+      this.todoForm = new FormGroup({
+        name: new FormControl(changes?.todo?.currentValue?.name ?? ''),
+        description: new FormControl(
+          changes?.todo?.currentValue?.description ?? ''
+        ),
+      });
+    }
+  }
 
   closeModal() {
     this.closingModal.emit();
   }
   handleSubmit() {
-    console.log({ data: this.todoForm.value, todo: this.todo });
+    if (this.todo?._id) {
+      this.http
+        .put<TodoUpdateResponse>(
+          `${this.ROOT_URL}/todos/${this.todo._id}`,
+          this.todoForm.value
+        )
+        .subscribe((response) => {
+          this.todoService.updateTodo(response.todo);
+          this.closeModal();
+        });
+      return;
+    }
     this.http
       .post<TodoUpdateResponse>(`${this.ROOT_URL}/todos`, this.todoForm.value)
       .subscribe((response) => {

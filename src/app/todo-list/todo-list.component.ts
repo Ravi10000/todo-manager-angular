@@ -27,7 +27,7 @@ export class TodoListComponent {
   todoService = inject(TodosService);
   todos: Todo[] = [];
   isModalOpen = false;
-  selectedTodo: Todo = { name: '', description: '' };
+  selectedTodo: Todo | null = null;
 
   constructor(private http: HttpClient) {
     this.todoService.todos$.subscribe((value) => {
@@ -39,9 +39,7 @@ export class TodoListComponent {
     this.http.get<TodoListResponse>(`${this.ROOT_URL}/todos`).subscribe(
       (response) => {
         this.todoService.setTodos(response.todos);
-        // this.todos = this.todoService.getAllTodos();
         console.log({ todos: this.todos });
-        // console.log({ todos: this.todos });
       },
       (error) => {
         console.log({ error });
@@ -53,14 +51,14 @@ export class TodoListComponent {
   }
   closeModal() {
     this.isModalOpen = false;
-    this.selectedTodo = { name: '', description: '' };
+    this.selectedTodo = null;
   }
   setSelectedTodo(todo: Todo) {
     this.selectedTodo = todo;
+    console.log({ todo });
   }
   toggleTodo(todo: Todo, index: number) {
     this.todoService.toggleTodo(index);
-    // this.todos = this.todoService.getAllTodos();
     this.http
       .put<TodoUpdateResponse>(`${this.ROOT_URL}/todos/${todo._id}`, {
         completed: this.todos[index].completed,
@@ -71,7 +69,6 @@ export class TodoListComponent {
         },
         (error) => {
           this.todoService.toggleTodo(index);
-          // this.todos = this.todoService.getAllTodos();
           console.log(error);
         }
       );
@@ -79,17 +76,14 @@ export class TodoListComponent {
 
   deleteTodo(todo: Todo, index: number) {
     this.todoService.removeTodo(index);
-    // this.todos = this.todoService.getAllTodos();
     this.http
       .delete<TodoUpdateResponse>(`${this.ROOT_URL}/todos/${todo._id}`)
       .subscribe(
         (response) => {
           console.log({ response });
-          console.log({ todos: this.todos });
         },
         (error) => {
           this.todoService.insertTodo(todo, index);
-          // this.todos = this.todoService.getAllTodos();
           console.log(error);
         }
       );

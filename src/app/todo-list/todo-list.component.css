@@ -2,7 +2,8 @@
     content: '';
     width: 100%;
     height: 4px;
-    background-color: #5038ED;
+    /* background-color: #5038ED; */
+    background-color: gray;
     position: absolute;
     top: 30px;
     left: 0;
@@ -16,6 +17,10 @@
 .completed{
     opacity: .75;
     transform: scale(.95);
+    background: #eeeeef;
+}
+.completed h2{
+    color: gray;
 }
 
 

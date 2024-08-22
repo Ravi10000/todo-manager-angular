@@ -40,4 +40,12 @@ export class TodosService {
     _temp[index].completed = !_temp[index].completed;
     this.todosSource.next(_temp);
   }
+  updateTodo(todo: Todo) {
+    this.todosSource.next(
+      this.todos.map((_todo) => {
+        if (_todo?._id === todo?._id) return todo;
+        return _todo;
+      })
+    );
+  }
 }
