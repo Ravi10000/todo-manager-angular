@@ -1,10 +1,9 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Todo } from '../../interfaces/todo.interface';
 import { NgFor, NgIf, NgClass } from '@angular/common';
 import { TodoModalComponent } from '../todo-modal/todo-modal.component';
-import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { TodosService } from '../todos.service';
 
 interface TodoListResponse {
   status: string;
@@ -25,19 +24,27 @@ interface TodoUpdateResponse {
 })
 export class TodoListComponent {
   readonly ROOT_URL = 'http://localhost:3040/api';
+  todoService = inject(TodosService);
   todos: Todo[] = [];
   isModalOpen = false;
   selectedTodo: Todo = { name: '', description: '' };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.todoService.todos$.subscribe((value) => {
+      this.todos = value;
+    });
+    console.log({ todos: this.todos });
+  }
   ngOnInit() {
     this.http.get<TodoListResponse>(`${this.ROOT_URL}/todos`).subscribe(
       (response) => {
-        this.todos = response.todos;
-        console.log(this.todos);
+        this.todoService.setTodos(response.todos);
+        // this.todos = this.todoService.getAllTodos();
+        console.log({ todos: this.todos });
+        // console.log({ todos: this.todos });
       },
       (error) => {
-        console.log(error);
+        console.log({ error });
       }
     );
   }
@@ -52,8 +59,8 @@ export class TodoListComponent {
     this.selectedTodo = todo;
   }
   toggleTodo(todo: Todo, index: number) {
-    console.log('toggle', todo, index);
-    this.todos[index].completed = !todo.completed;
+    this.todoService.toggleTodo(index);
+    // this.todos = this.todoService.getAllTodos();
     this.http
       .put<TodoUpdateResponse>(`${this.ROOT_URL}/todos/${todo._id}`, {
         completed: this.todos[index].completed,
@@ -61,17 +68,18 @@ export class TodoListComponent {
       .subscribe(
         (response) => {
           console.log({ response });
-          console.log({ todos: this.todos });
         },
         (error) => {
-          this.todos[index].completed = !this.todos[index].completed;
+          this.todoService.toggleTodo(index);
+          // this.todos = this.todoService.getAllTodos();
           console.log(error);
         }
       );
   }
 
   deleteTodo(todo: Todo, index: number) {
-    this.todos.splice(index, 1);
+    this.todoService.removeTodo(index);
+    // this.todos = this.todoService.getAllTodos();
     this.http
       .delete<TodoUpdateResponse>(`${this.ROOT_URL}/todos/${todo._id}`)
       .subscribe(
@@ -80,7 +88,8 @@ export class TodoListComponent {
           console.log({ todos: this.todos });
         },
         (error) => {
-          this.todos.splice(index, 0, todo);
+          this.todoService.insertTodo(todo, index);
+          // this.todos = this.todoService.getAllTodos();
           console.log(error);
         }
       );

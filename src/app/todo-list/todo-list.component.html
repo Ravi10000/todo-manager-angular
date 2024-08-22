@@ -18,29 +18,34 @@
     >
       My Todos
     </h1>
-    <div
-      *ngFor="let todo of todos; let i = index"
-      [ngClass]="{ completed: todo.completed }"
-      class="px-3 py-4 rounded-lg bg-bg/20 flex justify-between group relative overflow-hidden transition-all todo-item"
-    >
-      <div (click)="toggleTodo(todo, i)">
-        <div class="inline-flex gap-2 items-center cursor-pointer">
-          <h2 class="font-medium text-main/80 text-xl">{{ todo.name }}</h2>
+    <div class="h-[400px] overflow-y-auto">
+      <div
+        *ngFor="let todo of todos; let i = index"
+        [ngClass]="{ completed: todo.completed }"
+        class="px-3 py-4 rounded-lg bg-bg/20 flex justify-between group relative overflow-hidden transition-all todo-item"
+      >
+        <div (click)="toggleTodo(todo, i)">
+          <div class="inline-flex gap-2 items-center cursor-pointer">
+            <h2 class="font-medium text-main/80 text-xl">{{ todo.name }}</h2>
+          </div>
+          <p class="font-light text-sm" *ngIf="!!todo.description">
+            {{ todo.description }}
+          </p>
         </div>
-        <p class="font-light text-sm" *ngIf="!!todo.description">
-          {{ todo.description }}
-        </p>
-      </div>
-      <div class="gap-4 items-center hidden group-hover:flex">
-        <button
-          class="transition-all hover:scale-[1.2] active:scale-[.9]"
-          (click)="setSelectedTodo(todo)"
-        >
-          <img src="/pencil.png" class="w-6 h-fit" />
-        </button>
-        <button class="transition-all hover:scale-[1.2] active:scale-[.9]" (click)="deleteTodo(todo, i)">
-          <img src="/delete.png" class="w-6 h-fit" />
-        </button>
+        <div class="gap-4 items-center hidden group-hover:flex">
+          <button
+            class="transition-all hover:scale-[1.2] active:scale-[.9]"
+            (click)="setSelectedTodo(todo)"
+          >
+            <img src="/pencil.png" class="w-6 h-fit" />
+          </button>
+          <button
+            class="transition-all hover:scale-[1.2] active:scale-[.9]"
+            (click)="deleteTodo(todo, i)"
+          >
+            <img src="/delete.png" class="w-6 h-fit" />
+          </button>
+        </div>
       </div>
     </div>
     <button
