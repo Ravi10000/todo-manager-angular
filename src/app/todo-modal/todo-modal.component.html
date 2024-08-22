@@ -2,7 +2,7 @@
   class="fixed top-0 left-0 z-10 bg-black/60 flex items-center justify-center h-screen w-screen"
 >
   <div class="w-full max-w-[500px] h-fit p-6 bg-white rounded-xl modal-card">
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between mb-4">
       <h1 class="font-semibold text-2xl" *ngIf="!!todo; else addTodo">
         Edit Todo
       </h1>
@@ -23,18 +23,20 @@
         <input
           id="name"
           placeholder="Name"
-          class="w-full p-4 rounded-lg bg-[#F3F1FF]"
+          class="w-full p-4 rounded-lg bg-[#F3F1FF] focus:outline-main/80"
           formControlName="name"
           required="true"
         />
-        <p *ngIf="!!errors?.name" class="text-orange-600 text-sm pl-2">{{ errors?.name }}</p>
+        <p *ngIf="!!errors?.name" class="text-orange-600 text-sm pl-2">
+          {{ errors?.name }}
+        </p>
       </div>
       <div class="flex flex-col gap-2">
         <label class="ml-2 font-medium" for="description">Description</label>
         <textarea
           id="description"
           placeholder="Description"
-          class="w-full p-4 rounded-lg bg-[#F3F1FF] h-[100px]"
+          class="w-full p-4 rounded-lg bg-[#F3F1FF] h-[100px] focus:outline-main/80"
           formControlName="description"
         ></textarea>
       </div>
