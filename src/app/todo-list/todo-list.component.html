@@ -6,7 +6,7 @@
 />
 <section class="min-h-screen w-screen bg-bg flex items-center justify-center">
   <div
-    class="h-fit w-[90%] max-w-[500px] bg-white flex rounded-xl px-6 py-10 flex-col gap-2 relative shadow-md"
+    class="h-fit w-[90%] max-w-[450px] bg-white flex rounded-xl px-6 py-10 flex-col gap-2 relative shadow-md"
   >
     <img
       src="/checklist.png"
@@ -24,9 +24,7 @@
         class="px-3 py-4 rounded-lg bg-bg/20 flex justify-between group relative transition-all cursor-pointer"
       >
         <div (click)="toggleTodo(todo, i)" class="flex-1">
-          <div class="inline-flex gap-2 items-center cursor-pointer">
-            <h2 class="font-medium text-main/80 text-xl">{{ todo.name }}</h2>
-          </div>
+          <h2 class="font-medium text-main/80 text-xl">{{ todo.name }}</h2>
           <p class="font-light text-sm" *ngIf="!!todo.description">
             {{ todo.description }}
           </p>

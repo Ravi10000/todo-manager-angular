@@ -4,10 +4,7 @@ import {
   Output,
   Input,
   inject,
-  OnChanges,
 } from '@angular/core';
-import { TextareaComponent } from '../textarea/textarea.component';
-import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Todo } from '../../interfaces/todo.interface';
@@ -22,7 +19,7 @@ interface TodoUpdateResponse {
 @Component({
   selector: 'app-todo-modal',
   standalone: true,
-  imports: [TextareaComponent, FormsModule, NgIf, ReactiveFormsModule],
+  imports: [NgIf, ReactiveFormsModule],
   templateUrl: './todo-modal.component.html',
   styleUrl: './todo-modal.component.css',
 })

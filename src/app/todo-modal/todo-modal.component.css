@@ -1,0 +1,14 @@
+.modal-card{
+    animation: pop .2s ease-out;
+}
+
+@keyframes pop {
+    from {
+        transform : scale(.5);
+        opacity: .5;
+    }
+    to{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
