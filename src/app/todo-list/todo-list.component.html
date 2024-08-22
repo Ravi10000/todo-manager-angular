@@ -19,9 +19,10 @@
     </h1>
     <div
       *ngFor="let todo of todos; let i = index"
-      class="px-3 py-4 rounded-lg bg-bg/20 flex justify-between group"
+      [ngClass]="{completed: todo.completed}"
+      class="px-3 py-4 rounded-lg bg-bg/20 flex justify-between group relative overflow-hidden"
     >
-      <div class="" (click)="toggleTodo(todo, i)">
+      <div (click)="toggleTodo(todo, i)">
         <div class="inline-flex gap-2 items-center cursor-pointer">
           <div
             class="h-4 w-4 bg-transparent border-2 border-gray-800 rounded-full cursor-pointer"
