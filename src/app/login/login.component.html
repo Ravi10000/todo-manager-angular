@@ -1,0 +1,39 @@
+<section class="flex flex-col items-center justify-center min-h-[100vh] bg-[url(/bg.jpg)] bg-cover bg-center">
+    <form [formGroup]="formData" (submit)="onSubmit()" class="max-w-[450px] space-y-4 w-full shadow-md p-5 rounded-lg bg-white/70">
+        <h1 class="font-bold text-2xl text-main text-left">Login Here</h1>
+        <div>
+            <label class="ml-2 font-medium" for="email">Email</label>
+            <input
+              id="email"
+              placeholder="Email"
+              class="w-full p-4 rounded-lg bg-[#F3F1FF] focus:outline-main/80"
+              formControlName="email"
+              required="true"
+            />
+            @if(formData.controls['email'].errors?.['required'] && isAttempted){
+                <p class="text-orange-600 text-sm pl-2">
+                  Email Is Required
+                </p>
+            }@else if(formData.controls['email'].errors?.['email']  && isAttempted){
+                <p class="text-orange-600 text-sm pl-2">
+                    Invalid Email Address
+                  </p>
+            }
+        </div>
+        <div>
+            <label class="ml-2 font-medium" for="password">Password</label>
+            <input
+              id="password"
+              placeholder="Password"
+              class="w-full p-4 rounded-lg bg-[#F3F1FF] focus:outline-main/80"
+              formControlName="password"
+            />
+            @if(formData.controls['email'].errors?.['required'] && isAttempted){
+                <p class="text-orange-600 text-sm pl-2">
+                  Password Is Required
+                </p>
+            }
+        </div>
+        <button class="bg-main text-white py-4 rounded-lg w-full">Login</button>
+    </form>
+</section>
