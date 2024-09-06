@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 interface Response {
   status: string;
   message: string;
@@ -14,18 +15,22 @@ interface User {
 })
 
 export class AuthService {
-  user: User | null = null;
+  public userSource = new BehaviorSubject<User | null | undefined>(undefined);
+  user$ = this.userSource.asObservable();
   constructor(private http: HttpClient) { }
-  fetchProfile() {
-    return this.http.get<Response>('http://localhost:3040/api/auth/profile', { headers: { 'Authorization': `Bearer ${localStorage.getItem("accessToken")}` } })
-      // .subscribe({
-      //   next: response => {
-      //     this.user = response.user;
-      //     console.log({ response });
-      //   },
-      //   error: error => {
-      //     console.log({ error });
-      //   }
-      // })
-  }
+  // ngOnInit() {
+  //   this.http.get<Response>('http://localhost:3040/api/auth/profile',
+  //     { headers: { 'Authorization': `Bearer ${localStorage.getItem("accessToken")}` } })
+  //     .subscribe({
+  //       next: (response) => {
+  //         if (!response.user) this.userSource.next(null)
+  //         this.userSource.next(response.user);
+  //         console.log({ response });
+  //       },
+  //       error: error => {
+  //         this.userSource.next(null)
+  //         console.log({ error });
+  //       }
+  //     })
+  // }
 }

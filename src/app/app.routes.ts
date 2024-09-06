@@ -7,7 +7,7 @@ import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
     {
-        path: "",
+        path: "todos",
         component: TodoListComponent,
         canActivate: [authGuard]
     },

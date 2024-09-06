@@ -1,8 +1,7 @@
-<style>
-  
-</style>
-
-<main class="main">
-
-</main>
-<router-outlet />
+@if(isChecking){
+    <div class="h-screen w-screen fixed top-0 left-0 flex justify-center items-center">
+        <img src="/loading.png" alt="" class="animate-spin w-fit h-10">
+</div>}
+@else {
+    <router-outlet />
+}

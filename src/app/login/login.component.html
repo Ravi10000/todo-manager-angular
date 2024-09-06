@@ -11,7 +11,7 @@
               required="true"
             />
             @if(formData.controls['email'].errors?.['required'] && isAttempted){
-                <p class="text-orange-600 text-sm pl-2">
+                <p class="pl-2">
                   Email Is Required
                 </p>
             }@else if(formData.controls['email'].errors?.['email']  && isAttempted){
