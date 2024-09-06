@@ -29,7 +29,7 @@ export class TodoModalComponent {
     description: new FormControl(''),
   });
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   ngOnChanges(changes: any) {
     if (changes?.todo?.currentValue?._id) {
       this.todoForm = new FormGroup({
@@ -53,7 +53,12 @@ export class TodoModalComponent {
       this.http
         .put<TodoUpdateResponse>(
           `${this.ROOT_URL}/todos/${this.todo._id}`,
-          this.todoForm.value
+          this.todoForm.value,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+            }
+          }
         )
         .subscribe((response) => {
           this.todoService.updateTodo(response.todo);
@@ -62,7 +67,11 @@ export class TodoModalComponent {
       return;
     }
     this.http
-      .post<TodoUpdateResponse>(`${this.ROOT_URL}/todos`, this.todoForm.value)
+      .post<TodoUpdateResponse>(`${this.ROOT_URL}/todos`, this.todoForm.value, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+        }
+      })
       .subscribe((response) => {
         this.todoService.addTodo(response.todo);
         this.closeModal();

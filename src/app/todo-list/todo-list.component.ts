@@ -4,6 +4,7 @@ import { Todo } from '../../interfaces/todo.interface';
 import { CommonModule } from '@angular/common';
 import { TodoModalComponent } from '../todo-modal/todo-modal.component';
 import { TodosService } from '../todos.service';
+import { TimerPipe } from '../timer.pipe';
 
 interface TodoListResponse {
   status: string;
@@ -18,7 +19,7 @@ interface TodoUpdateResponse {
 @Component({
   selector: 'app-todo-list',
   standalone: true,
-  imports: [CommonModule, TodoModalComponent],
+  imports: [CommonModule, TodoModalComponent, TimerPipe],
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.css',
 })
@@ -36,14 +37,20 @@ export class TodoListComponent {
     console.log({ todos: this.todos });
   }
   ngOnInit() {
-    this.http.get<TodoListResponse>(`${this.ROOT_URL}/todos`).subscribe(
-      (response) => {
+    this.http.get<TodoListResponse>(`${this.ROOT_URL}/todos`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    }).subscribe({
+      next: (response) => {
         this.todoService.setTodos(response.todos);
         console.log({ todos: this.todos });
       },
-      (error) => {
+      error: (error) => {
         console.log({ error });
       }
+    }
+
     );
   }
   openModal() {
@@ -62,14 +69,20 @@ export class TodoListComponent {
     this.http
       .put<TodoUpdateResponse>(`${this.ROOT_URL}/todos/${todo._id}`, {
         completed: this.todos[index].completed,
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+        }
       })
       .subscribe(
-        (response) => {
-          console.log({ response });
-        },
-        (error) => {
-          this.todoService.toggleTodo(index);
-          console.log(error);
+        {
+          next: (response) => {
+            console.log({ response });
+          },
+          error: (error) => {
+            this.todoService.toggleTodo(index);
+            console.log(error);
+          }
         }
       );
   }
@@ -77,14 +90,20 @@ export class TodoListComponent {
   deleteTodo(todo: Todo, index: number) {
     this.todoService.removeTodo(index);
     this.http
-      .delete<TodoUpdateResponse>(`${this.ROOT_URL}/todos/${todo._id}`)
+      .delete<TodoUpdateResponse>(`${this.ROOT_URL}/todos/${todo._id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+        }
+      })
       .subscribe(
-        (response) => {
-          console.log({ response });
-        },
-        (error) => {
-          this.todoService.insertTodo(todo, index);
-          console.log(error);
+        {
+          next: (response) => {
+            console.log({ response });
+          },
+          error: (error) => {
+            this.todoService.insertTodo(todo, index);
+            console.log(error);
+          }
         }
       );
   }
