@@ -15,8 +15,9 @@ interface User {
 })
 
 export class AuthService {
-  public userSource = new BehaviorSubject<User | null | undefined>(undefined);
-  user$ = this.userSource.asObservable();
+  // public userSource = new BehaviorSubject<User | null | undefined>(undefined);
+  // user$ = this.userSource.asObservable();
+  user$ = new BehaviorSubject<User | null | undefined>(undefined);
   constructor(private http: HttpClient) { }
   // ngOnInit() {
   //   this.http.get<Response>('http://localhost:3040/api/auth/profile',

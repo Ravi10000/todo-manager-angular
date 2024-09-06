@@ -52,12 +52,12 @@ export class AppComponent {
       { headers: { 'Authorization': `Bearer ${localStorage.getItem("accessToken")}` } })
       .subscribe({
         next: (response) => {
-          if (!response.user) this.authService.userSource.next(null)
-          this.authService.userSource.next(response.user);
+          if (!response.user) this.authService.user$.next(null)
+          this.authService.user$.next(response.user);
           console.log({ response });
         },
         error: error => {
-          this.authService.userSource.next(null)
+          this.authService.user$.next(null)
           console.log({ error });
         }
       })

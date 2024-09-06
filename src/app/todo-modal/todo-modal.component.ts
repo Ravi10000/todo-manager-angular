@@ -23,6 +23,7 @@ export class TodoModalComponent {
   @Output() closingModal = new EventEmitter();
   errors: any = {};
   todoService = inject(TodosService);
+  isSubmitting = false;
 
   todoForm = new FormGroup({
     name: new FormControl(''),
@@ -49,6 +50,7 @@ export class TodoModalComponent {
       this.errors.name = 'Name Required';
       return;
     }
+    this.isSubmitting = true;
     if (this.todo?._id) {
       this.http
         .put<TodoUpdateResponse>(
@@ -60,9 +62,14 @@ export class TodoModalComponent {
             }
           }
         )
-        .subscribe((response) => {
-          this.todoService.updateTodo(response.todo);
-          this.closeModal();
+        .subscribe({
+          next: (response) => {
+            this.todoService.updateTodo(response.todo);
+            this.closeModal();
+          },
+          complete: () => {
+            this.isSubmitting = false;
+          }
         });
       return;
     }
@@ -72,9 +79,14 @@ export class TodoModalComponent {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`
         }
       })
-      .subscribe((response) => {
-        this.todoService.addTodo(response.todo);
-        this.closeModal();
+      .subscribe({
+        next: (response) => {
+          this.todoService.addTodo(response.todo);
+          this.closeModal();
+        },
+        complete: () => {
+          this.isSubmitting = false;
+        }
       });
   }
 }

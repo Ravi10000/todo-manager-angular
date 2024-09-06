@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Todo } from '../interfaces/todo.interface';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodosService {
-  private todosSource = new Subject<Todo[]>();
-  todos$ = this.todosSource.asObservable();
+  // private todosSource = new Subject<Todo[]>();
+  // todos$ = this.todosSource.asObservable();
+  todos$ = new BehaviorSubject<Todo[]>([]);
   todos: Todo[] = [];
 
   constructor() {
@@ -20,28 +21,28 @@ export class TodosService {
     return this.todos;
   }
   setTodos(todos: Todo[]) {
-    this.todosSource.next(todos);
+    this.todos$.next(todos);
   }
   addTodo(todo: Todo) {
-    this.todosSource.next([todo, ...this.todos]);
+    this.todos$.next([todo, ...this.todos]);
   }
   insertTodo(todo: Todo, index: number) {
     const _temp = [...this.todos];
     _temp.splice(index, 0, todo);
-    this.todosSource.next(_temp);
+    this.todos$.next(_temp);
   }
   removeTodo(index: number) {
     const _temp = [...this.todos];
     _temp.splice(index, 1);
-    this.todosSource.next(_temp);
+    this.todos$.next(_temp);
   }
   toggleTodo(index: number) {
     const _temp = [...this.todos];
     _temp[index].completed = !_temp[index].completed;
-    this.todosSource.next(_temp);
+    this.todos$.next(_temp);
   }
   updateTodo(todo: Todo) {
-    this.todosSource.next(
+    this.todos$.next(
       this.todos.map((_todo) => {
         if (_todo?._id === todo?._id) return todo;
         return _todo;

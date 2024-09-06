@@ -39,7 +39,7 @@ export class LoginComponent {
       next: data => {
         console.log({ data });
         localStorage.setItem('accessToken', data.authToken);
-        this.authService.userSource.next(data.user);
+        this.authService.user$.next(data.user);
         this.toastService.toastSource.next({
           message: "Logged in successfully",
           type: 'success'
