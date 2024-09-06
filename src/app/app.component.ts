@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { GuardsCheckEnd, GuardsCheckStart, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
+import { ToastService } from './toast.service';
 
 interface User {
   email: string;
@@ -21,9 +22,17 @@ interface Response {
 export class AppComponent {
   title = 'todo';
   isChecking = false;
-  constructor(private router: Router, private authService: AuthService, private http: HttpClient) {
+  toast: any;
+  constructor(private router: Router, private authService: AuthService, private http: HttpClient, private toastService: ToastService) {
   }
   ngOnInit() {
+    this.toastService.toastSource.subscribe(toast => {
+      this.toast = toast
+      if (toast)
+        setTimeout(() => {
+          this.toastService.toastSource.next(null)
+        }, 3_000)
+    });
     this.router.events.subscribe(event => {
       if (event instanceof GuardsCheckStart)
         this.isChecking = true;

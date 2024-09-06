@@ -1,3 +1,9 @@
+@if(toast){
+    <div class="fixed z-10 bg-white shadow-sm px-4 py-2 top-5 right-5 rounded-md">
+        <p>{{toast.message}}</p>
+    </div>
+}
+
 @if(isChecking){
     <div class="h-screen w-screen fixed top-0 left-0 flex justify-center items-center">
         <img src="/loading.png" alt="" class="animate-spin w-fit h-10">

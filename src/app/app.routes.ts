@@ -4,6 +4,7 @@ import { Routes } from '@angular/router';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { LoginComponent } from './login/login.component';
 import { authGuard } from './auth.guard';
+import { guestGuard } from './guest.guard';
 
 export const routes: Routes = [
     {
@@ -11,12 +12,13 @@ export const routes: Routes = [
         component: TodoListComponent,
         canActivate: [authGuard]
     },
-        {
-            path: "login",
-            component: LoginComponent,
-        },
-        // {
-        //     path: "register",
-        //     component: RegisterComponent
-        // }
+    {
+        path: "login",
+        component: LoginComponent,
+        canActivate: [guestGuard]
+    },
+    // {
+    //     path: "register",
+    //     component: RegisterComponent
+    // }
 ];
