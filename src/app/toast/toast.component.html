@@ -1,0 +1,9 @@
+@if(toast){
+    <div class="fixed z-10 top-8 right-5 rounded-md px-6 py-3 min-w-[300px] font-semibold tracking-wider flex items-center justify-start gap-2"
+[ngClass]="{'text-main bg-violet-200': toast.status === 'success', 'text-red-600 bg-red-100': toast.status === 'error', 'text-yellow-600 bg-yellow-50': toast.status === 'warning','text-slate-600 bg-slate-200': toast.status === 'info' }">
+<img [src]="'/' + toast.status +'.png'" alt="" class="h-5 w-fit">
+    <p>{{toast.message}}</p>
+     <button class="ml-auto" (click)="toastService.clear()">
+        <img src="/close.png" alt="" class="h-4 w-fit opacity-90 absolute top-0 right-0 -translate-y-1/2 translate-x-1/2">
+     </button>
+</div>}

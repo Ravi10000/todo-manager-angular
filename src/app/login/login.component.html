@@ -34,6 +34,11 @@
                 </p>
             }
         </div>
-        <button class="bg-main text-white py-4 rounded-lg w-full">Login</button>
+        <button class="bg-main text-white py-4 rounded-lg w-full flex items-center gap-3 justify-center disabled:opacity-90 disabled:cursor-not-allowed" [disabled]="isLoading">
+          <span>SIGN IN</span>
+         @if(isLoading){
+          <img src="/loading.png" alt="" class="animate-spin h-5 w-fit" style="filter: brightness(0) invert(1)">
+         }
+        </button>
     </form>
 </section>

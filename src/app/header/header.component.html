@@ -1,0 +1,14 @@
+@if(!this.router.url.includes('login')){
+    <header class="bg-violet-100 px-4 py-2 w-full flex justify-end gap-3">
+  @if(isChecking){
+    <img src="/loading.png" alt="" class="animate-spin h-3 w-fit" />
+  }@else{
+    @if(user){
+        <button (click)="authService.logout()" class="bg-red-200 py-2 rounded-md px-4 text-red-600 font-semibold tracking-wider">SIGN-OUT</button>
+    }@else {
+        <button (click)="router.navigate(['login'])" class="bg-main py-2 rounded-md px-4 text-white font-semibold tracking-wider">SIGN-IN</button>
+    }
+}
+
+</header>
+}

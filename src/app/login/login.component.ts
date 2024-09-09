@@ -21,6 +21,7 @@ interface Response {
 })
 export class LoginComponent {
   isAttempted = false;
+  isLoading = false;
   formData: FormGroup = new FormGroup({});
 
   ngOnInit() {
@@ -34,24 +35,27 @@ export class LoginComponent {
   constructor(private http: HttpClient, private authService: AuthService, private router: Router, private toastService: ToastService) { }
   onSubmit() {
     this.isAttempted = true;
+    this.isLoading = true;
     console.log(this.formData);
     this.http.post<Response>('http://localhost:3040/api/user/login', this.formData.value).subscribe({
       next: data => {
         console.log({ data });
         localStorage.setItem('accessToken', data.authToken);
         this.authService.user$.next(data.user);
-        this.toastService.toastSource.next({
+        this.toastService.pushToast({
           message: "Logged in successfully",
-          type: 'success'
+          status: 'success'
         })
         this.router.navigate(["/todos"])
       },
       error: error => {
         console.log({ error });
-        this.toastService.toastSource.next({
+        this.toastService.pushToast({
           message: "Invalid Email or Password",
-          type: 'error'
+          status: 'error'
         })
+      }, complete: () => {
+        this.isLoading = false;
       }
     });
   }

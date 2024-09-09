@@ -5,13 +5,22 @@ enum Type {
 }
 interface Toast {
   message: string
-  type: string
+  status: string
 }
 @Injectable({
   providedIn: 'root'
 })
 export class ToastService {
-  toastSource = new BehaviorSubject<Toast | null>(null);
-  toast$ = this.toastSource.asObservable();
+  toast$ = new BehaviorSubject<Toast | null>(null);
+  // toast$ = this.toastSource.asObservable();
   constructor() { }
+  clear() {
+    this.toast$.next(null)
+  }
+  pushToast(toast: Toast) {
+    this.toast$.next(toast);
+    setTimeout(() => {
+      this.clear()
+    }, 3_000)
+  }
 }

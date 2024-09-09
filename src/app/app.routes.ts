@@ -8,6 +8,11 @@ import { guestGuard } from './guest.guard';
 
 export const routes: Routes = [
     {
+        path: "",
+        redirectTo: "todos",
+        pathMatch: "full"
+    },
+    {
         path: "todos",
         component: TodoListComponent,
         canActivate: [authGuard]
